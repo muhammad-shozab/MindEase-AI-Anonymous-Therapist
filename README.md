@@ -2,6 +2,9 @@
 
 A comprehensive React-based mental health support platform that combines AI-powered therapy, mood tracking, crisis management, and diagnostic tools to provide holistic mental health support.
 
+<img width="1365" height="707" alt="image" src="https://github.com/user-attachments/assets/3a3eab1d-8a5c-48e2-ac25-843e57df4b10" />
+
+
 ## 🌟 Features
 
 ### 1. **AI-Powered Therapy Chat**
@@ -42,22 +45,22 @@ A comprehensive React-based mental health support platform that combines AI-powe
 ## 📸 Project Screenshots
 
 ### Home Page
-![Home Page](IMAGE_PLACEHOLDER_1)
+<img width="1365" height="707" alt="image" src="https://github.com/user-attachments/assets/8420a133-1c83-4d25-8858-b0974c01360b" />
 
 ### Dashboard Overview
-![Dashboard](IMAGE_PLACEHOLDER_2)
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/308a327d-64b6-4c05-8b5c-3acfb087cc07" />
 
 ### Therapy Chat Interface
-![Chat Interface](IMAGE_PLACEHOLDER_3)
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/2ae8fb8a-c198-42c3-ad5f-5c595b3f5a79" />
 
 ### Mood Tracker
-![Mood Tracker](IMAGE_PLACEHOLDER_4)
+<img width="1365" height="549" alt="image" src="https://github.com/user-attachments/assets/ebfaff34-fc59-4ecc-ab5c-8cc581c54333" />
 
-### Diagnostic Tools
-![Diagnostics](IMAGE_PLACEHOLDER_5)
+### Import Exported Chats
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/0c6c86e9-ec4b-4f4f-a0a9-b11d670ec088" />
 
 ### Crisis Management
-![Crisis Button](IMAGE_PLACEHOLDER_6)
+<img width="1356" height="765" alt="image" src="https://github.com/user-attachments/assets/0e0ab7d8-28d6-405d-bbb8-ec9cda49d39d" />
 
 ## 🛠️ Tech Stack
 
