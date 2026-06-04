@@ -278,23 +278,24 @@ const Chat = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-violet-950 dark:to-fuchsia-950 flex flex-col text-slate-800 dark:text-slate-100">
-      <header className="bg-white/65 dark:bg-slate-900/65 backdrop-blur-sm border-b border-purple-200/80 dark:border-violet-400/25 p-4 sticky top-0 z-30 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-        <div className="w-full px-1">
-          <div className="grid grid-cols-3 items-center w-full">
-            <div className="flex items-center gap-3 justify-self-start">
+      <header className="bg-white/65 dark:bg-slate-900/65 backdrop-blur-sm border-b border-purple-200/80 dark:border-violet-400/25 p-2 sm:p-3 md:p-4 sticky top-0 z-30 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
+        <div className="w-full px-1 sm:px-2 md:px-3">
+          <div className="grid grid-cols-3 items-center w-full gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 justify-self-start min-w-0">
               <button
                 onClick={() => setShowOptionsSidebar(true)}
-                className="bg-white/60 dark:bg-slate-800/70 hover:bg-white/85 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 px-3 py-2 rounded-lg transition-colors text-sm flex items-center gap-2 border border-purple-200/90 dark:border-violet-400/30"
+                className="bg-white/60 dark:bg-slate-800/70 hover:bg-white/85 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 px-2 sm:px-3 py-2 rounded-lg transition-colors text-xs sm:text-sm flex items-center gap-1 sm:gap-2 border border-purple-200/90 dark:border-violet-400/30 flex-shrink-0"
                 title="Open options"
               >
-                <Menu size={18} />
+                <Menu size={16} sm:size={18} />
+                <span className="hidden sm:inline">Menu</span>
               </button>
               <button
                 onClick={() => navigate('/dashboard')}
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors flex items-center gap-2"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors flex items-center gap-1 sm:gap-2 text-xs sm:text-sm flex-shrink-0"
               >
-                <ArrowLeft size={20} />
-                <span>Back</span>
+                <ArrowLeft size={18} sm:size={20} />
+                <span className="hidden sm:inline">Back</span>
               </button>
             </div>
 

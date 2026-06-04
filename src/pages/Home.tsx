@@ -17,7 +17,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-violet-950 dark:to-fuchsia-950 relative overflow-hidden flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-violet-950 dark:to-fuchsia-950 relative overflow-hidden flex items-center justify-center p-3 sm:p-4 md:p-6 lg:p-8">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Gradient Orbs */}
@@ -112,10 +112,10 @@ const Home = () => {
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </motion.button>
 
-      <div className="max-w-6xl w-full text-center relative z-10">
+      <div className="max-w-6xl w-full text-center relative z-10 px-4 sm:px-6 md:px-8">
         {/* Main Logo */}
         <motion.div
-          className="mb-8 flex justify-center"
+          className="mb-6 sm:mb-8 md:mb-10 flex justify-center"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.8, type: 'spring' }}
@@ -133,15 +133,15 @@ const Home = () => {
                 ease: 'easeInOut'
               }}
             />
-            <div className="relative bg-white/75 dark:bg-gradient-to-br dark:from-violet-600 dark:to-purple-700 p-8 rounded-full shadow-[0_18px_45px_rgba(14,165,233,0.18)] dark:shadow-2xl border border-cyan-200/70 dark:border-transparent backdrop-blur-md">
-              <Brain size={80} className="text-cyan-700 dark:text-slate-100" />
+            <div className="relative bg-white/75 dark:bg-gradient-to-br dark:from-violet-600 dark:to-purple-700 p-4 sm:p-6 md:p-8 rounded-full shadow-[0_18px_45px_rgba(14,165,233,0.18)] dark:shadow-2xl border border-cyan-200/70 dark:border-transparent backdrop-blur-md">
+              <Brain size={48} sm:size={64} md:size={80} className="text-cyan-700 dark:text-slate-100" />
             </div>
           </div>
         </motion.div>
 
         {/* Title with Gradient Animation */}
         <motion.h1
-          className="text-7xl md:text-8xl font-bold mb-4 relative"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-3 sm:mb-4 md:mb-6 relative"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -153,7 +153,7 @@ const Home = () => {
 
         {/* Tagline */}
         <motion.p
-          className="text-3xl text-gray-300 mb-4"
+          className="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-2 sm:mb-3 md:mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -162,7 +162,7 @@ const Home = () => {
         </motion.p>
 
         <motion.p
-          className="text-slate-500 dark:text-slate-400 mb-12 text-lg"
+          className="text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 mb-8 sm:mb-10 md:mb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -172,29 +172,29 @@ const Home = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          className="space-y-6"
+          className="space-y-3 sm:space-y-4 md:space-y-6"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.3 }}
         >
-          <div className="flex flex-col gap-4 items-center justify-center">
+          <div className="flex flex-col gap-3 sm:gap-4 items-center justify-center">
             <motion.button
               onClick={() => navigate('/chat/support')}
-              className="relative w-full max-w-md block group"
+              className="relative w-full sm:w-auto block group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-300 to-indigo-400 rounded-full blur-xl opacity-60 group-hover:opacity-85 transition-opacity" />
-              <div className="relative bg-gradient-to-r from-cyan-300 to-indigo-400 hover:from-cyan-200 hover:to-indigo-300 text-slate-900 font-bold py-5 px-10 rounded-full text-xl shadow-[0_18px_45px_rgba(14,165,233,0.28)] flex items-center justify-center gap-3">
-                <Brain size={24} />
+              <div className="relative bg-gradient-to-r from-cyan-300 to-indigo-400 hover:from-cyan-200 hover:to-indigo-300 text-slate-900 font-bold py-3 sm:py-4 md:py-5 px-6 sm:px-8 md:px-10 rounded-full text-base sm:text-lg md:text-xl shadow-[0_18px_45px_rgba(14,165,233,0.28)] flex items-center justify-center gap-2 sm:gap-3">
+                <Brain size={20} sm:size={22} md:size={24} />
                 Start Chat
-                <Sparkles size={20} />
+                <Sparkles size={18} sm:size={19} md:size={20} />
               </div>
             </motion.button>
 
             <motion.button
               onClick={() => navigate('/dashboard#import-chat')}
-              className="w-full max-w-md bg-white/65 dark:bg-slate-900/65 hover:bg-white/85 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 font-semibold py-4 px-8 rounded-full border border-purple-200 transition-colors"
+              className="w-full sm:w-auto bg-white/65 dark:bg-slate-900/65 hover:bg-white/85 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 font-semibold py-3 sm:py-4 md:py-5 px-6 sm:px-8 md:px-10 rounded-full border border-purple-200 transition-colors text-sm sm:text-base md:text-lg"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

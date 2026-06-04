@@ -45,7 +45,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-violet-950 dark:to-fuchsia-950 relative overflow-hidden p-6">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-violet-950 dark:to-fuchsia-950 relative overflow-hidden p-3 sm:p-4 md:p-6 lg:p-8">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -77,25 +77,25 @@ const Dashboard = () => {
       </div>
 
       <motion.header
-        className="max-w-7xl mx-auto mb-8 relative z-10"
+        className="max-w-7xl mx-auto mb-6 sm:mb-8 md:mb-10 lg:mb-12 relative z-10 px-4 sm:px-6 md:px-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
           <button
             onClick={() => navigate('/')}
-            className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors flex items-center gap-2"
+            className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors flex items-center gap-2 text-sm sm:text-base"
           >
             <ArrowLeft size={20} />
-            <span>Home</span>
+            <span className="hidden sm:inline">Home</span>
           </button>
 
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
-              <Sparkles className="text-violet-500" size={28} />
-              MindEase
+          <div className="text-center flex-1 sm:flex-none">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2 flex-wrap">
+              <Sparkles className="text-violet-500 text-lg sm:text-2xl md:text-3xl" size={24} sm:size={28} md:size={32} />
+              <span>MindEase</span>
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">Your Safe Space for Mental Wellness</p>
+            <p className="text-xs sm:text-sm md:text-base text-slate-500 dark:text-slate-400 mt-1">Your Safe Space for Mental Wellness</p>
           </div>
 
           <div className="flex items-center gap-3">

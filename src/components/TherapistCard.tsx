@@ -42,7 +42,7 @@ const TherapistCard = ({ therapist }: TherapistCardProps) => {
     <div
       onClick={handleClick}
       className={`
-        relative overflow-hidden rounded-2xl border-2 p-6
+        relative overflow-hidden rounded-xl sm:rounded-2xl border-2 p-4 sm:p-5 md:p-6
         bg-gradient-to-br ${colorMap[therapist.color] || colorMap.emerald}
         backdrop-blur-sm cursor-pointer
         transition-all duration-300 hover:scale-105 hover:shadow-2xl
@@ -50,24 +50,24 @@ const TherapistCard = ({ therapist }: TherapistCardProps) => {
       `}
     >
       {/* Icon */}
-      <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300 flex justify-center">
-        <Icon size={48} className={iconColorMap[therapist.color] || 'text-emerald-400'} />
+      <div className="mb-3 sm:mb-4 transform group-hover:scale-110 transition-transform duration-300 flex justify-center">
+        <Icon size={40} className={`${iconColorMap[therapist.color] || 'text-emerald-400'}`} />
       </div>
 
       {/* Name */}
-      <h3 className="text-2xl font-bold text-slate-800 mb-2 text-center">
+      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 mb-2 text-center">
         {therapist.name}
       </h3>
 
       {/* Specialty */}
-      <p className="text-slate-600 mb-4 text-center">
+      <p className="text-xs sm:text-sm md:text-base text-slate-600 mb-3 sm:mb-4 text-center">
         {therapist.specialty}
       </p>
 
       {/* Start Button */}
       <button className="
         w-full bg-white/10 hover:bg-white/20 
-        text-slate-800 font-semibold py-2 px-4 rounded-lg
+        text-slate-800 font-semibold py-2 sm:py-2.5 md:py-3 px-4 rounded-lg text-xs sm:text-sm md:text-base
         transition-colors duration-200
         border border-white/20
       ">
@@ -75,7 +75,7 @@ const TherapistCard = ({ therapist }: TherapistCardProps) => {
       </button>
 
       {/* Decorative element */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
     </div>
   );
 };
