@@ -14,7 +14,7 @@ import {
   getConfiguredDriveFolderEmail,
   hasGoogleDriveClientId,
 } from '../config/googleDrive';
-import { ArrowLeft, Sun, Moon, Shield, Lock, UserX, Cloud, Download, Menu, X, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowLeft, Sun, Moon, Shield, Lock, UserX, Cloud, Download, Menu, X, CheckCircle2, Sparkles, Volume2, VolumeX } from 'lucide-react';
 
 const Chat = () => {
   const { therapistType } = useParams<{ therapistType: string }>();
@@ -45,6 +45,10 @@ const Chat = () => {
   const [exportStatus, setExportStatus] = useState<string | null>(null);
   const [exportStatusType, setExportStatusType] = useState<'success' | 'error' | null>(null);
   const [showOptionsSidebar, setShowOptionsSidebar] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(() => localStorage.getItem('mindeaseVoiceReplies') === 'true');
+  const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [activeSpeechKey, setActiveSpeechKey] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pendingDriveExportRef = useRef<{ email: string; payload: string } | null>(null);
   const aiService = RealAIService.getInstance();
@@ -108,6 +112,52 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
+    const supported = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    setSpeechSupported(supported);
+
+    if (supported) {
+      const chooseAssistantVoice = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith('en'));
+        const preferredNames = [
+          'samantha',
+          'karen',
+          'victoria',
+          'moira',
+          'google us english',
+          'microsoft jenny',
+          'microsoft aria',
+          'microsoft zira',
+          'zira',
+          'female',
+        ];
+
+        const voice =
+          preferredNames
+            .map((name) => englishVoices.find((candidate) => candidate.name.toLowerCase().includes(name)))
+            .find(Boolean) ??
+          englishVoices.find((candidate) => candidate.localService) ??
+          englishVoices[0] ??
+          voices[0] ??
+          null;
+
+        setSelectedVoice(voice);
+      };
+
+      chooseAssistantVoice();
+      window.speechSynthesis.onvoiceschanged = chooseAssistantVoice;
+    }
+
+    return () => {
+      if (supported) {
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.onvoiceschanged = null;
+        setActiveSpeechKey(null);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (!currentSession || currentSession.therapistType !== therapistType) {
       if (therapistType) {
         startNewSession(therapistType);
@@ -135,6 +185,56 @@ const Chat = () => {
       'self-harm',
     ];
     return triggers.some((phrase) => normalized.includes(phrase));
+  };
+
+  const speakText = (text: string, force = false, speechKey?: string) => {
+    if (!speechSupported || (!voiceEnabled && !force)) {
+      return;
+    }
+
+    if (speechKey && activeSpeechKey === speechKey) {
+      window.speechSynthesis.cancel();
+      setActiveSpeechKey(null);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    setActiveSpeechKey(speechKey ?? null);
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice?.lang ?? 'en-US';
+    utterance.rate = 0.95;
+    utterance.pitch = 1.08;
+    utterance.volume = 1;
+    utterance.onend = () => {
+      if (speechKey) {
+        setActiveSpeechKey((currentKey) => (currentKey === speechKey ? null : currentKey));
+      }
+    };
+    utterance.onerror = () => {
+      if (speechKey) {
+        setActiveSpeechKey((currentKey) => (currentKey === speechKey ? null : currentKey));
+      }
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const toggleVoiceReplies = () => {
+    const nextEnabled = !voiceEnabled;
+    setVoiceEnabled(nextEnabled);
+    localStorage.setItem('mindeaseVoiceReplies', String(nextEnabled));
+
+    if (!speechSupported) {
+      return;
+    }
+
+    if (nextEnabled) {
+      speakText('Voice replies are on. I will read therapist responses aloud.', true);
+    } else {
+      window.speechSynthesis.cancel();
+    }
   };
 
   const handleSend = async () => {
@@ -170,6 +270,7 @@ const Chat = () => {
       };
 
       addMessage(aiMessage);
+      speakText(response);
     } catch (err: any) {
       console.error('Chat error:', err);
       setError(err.message || 'Failed to get AI response. Please try again.');
@@ -181,6 +282,7 @@ const Chat = () => {
       };
 
       addMessage(errorMessage);
+      speakText(errorMessage.content);
     } finally {
       setIsTyping(false);
     }
@@ -312,6 +414,24 @@ const Chat = () => {
                 aria-label="Toggle dark mode"
               >
                 {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button
+                type="button"
+                onClick={toggleVoiceReplies}
+                disabled={!speechSupported}
+                className={`
+                  p-2 rounded-xl transition-all border
+                  ${voiceEnabled
+                    ? 'bg-gradient-to-r from-emerald-200 to-cyan-200 text-emerald-900 border-emerald-200 shadow-[0_8px_22px_rgba(16,185,129,0.22)] dark:from-emerald-400/25 dark:to-cyan-400/25 dark:text-emerald-100 dark:border-emerald-400/35'
+                    : 'bg-white/70 dark:bg-slate-800/75 hover:bg-white/90 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 border-purple-200/90 dark:border-violet-400/30'
+                  }
+                  disabled:cursor-not-allowed disabled:opacity-50
+                `}
+                aria-label={voiceEnabled ? 'Turn off automatic voice replies' : 'Turn on automatic voice replies'}
+                aria-pressed={voiceEnabled}
+                title={speechSupported ? 'Automatic voice replies' : 'Voice replies are not supported in this browser'}
+              >
+                {voiceEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
               </button>
               <button
                 onClick={() => {
@@ -487,9 +607,19 @@ const Chat = () => {
             </div>
           )}
 
-          {currentSession?.messages.map((msg, index) => (
-            <ChatBubble key={index} message={msg} />
-          ))}
+          {currentSession?.messages.map((msg, index) => {
+            const speechKey = `${msg.timestamp}-${index}`;
+
+            return (
+              <ChatBubble
+                key={speechKey}
+                message={msg}
+                onSpeak={(text) => speakText(text, true, speechKey)}
+                speechAvailable={speechSupported}
+                isSpeaking={activeSpeechKey === speechKey}
+              />
+            );
+          })}
 
           {isTyping && <TypingIndicator />}
           <div ref={messagesEndRef} />

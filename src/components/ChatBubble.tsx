@@ -1,12 +1,15 @@
 import { Message } from '../services/GeminiService';
-import { User, Bot } from 'lucide-react';
+import { User, Bot, Volume2, VolumeX } from 'lucide-react';
 
 interface ChatBubbleProps {
   message: Message;
   therapistIcon?: string;
+  onSpeak?: (text: string) => void;
+  speechAvailable?: boolean;
+  isSpeaking?: boolean;
 }
 
-const ChatBubble = ({ message }: ChatBubbleProps) => {
+const ChatBubble = ({ message, onSpeak, speechAvailable = false, isSpeaking = false }: ChatBubbleProps) => {
   const isUser = message.role === 'user';
   const senderLabel = isUser ? 'You' : 'Therapist';
   const time = new Date(message.timestamp).toLocaleTimeString('en-US', {
@@ -38,9 +41,32 @@ const ChatBubble = ({ message }: ChatBubbleProps) => {
             : 'bg-white/70 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 rounded-bl-sm border border-purple-200 dark:border-violet-400/30'
           }
         `}>
-          <p className={`text-[11px] font-semibold mb-1 ${isUser ? 'text-violet-100' : 'text-emerald-500'}`}>
-            {senderLabel}
-          </p>
+          <div className="mb-1 flex items-center justify-between gap-3">
+            <p className={`text-[11px] font-semibold ${isUser ? 'text-violet-100' : 'text-emerald-500'}`}>
+              {senderLabel}
+            </p>
+            {!isUser && speechAvailable && onSpeak && (
+              <button
+                type="button"
+                onClick={() => onSpeak(message.content)}
+                className={`
+                  group relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full
+                  border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-300/70
+                  ${isSpeaking
+                    ? 'border-rose-200 bg-gradient-to-br from-rose-100 to-pink-200 text-rose-600 shadow-[0_8px_20px_rgba(244,63,94,0.22)] dark:border-rose-400/40 dark:from-rose-500/20 dark:to-pink-500/20 dark:text-rose-200'
+                    : 'border-emerald-200 bg-gradient-to-br from-emerald-100 to-cyan-100 text-emerald-600 shadow-[0_8px_20px_rgba(16,185,129,0.2)] hover:-translate-y-0.5 hover:from-emerald-200 hover:to-cyan-200 dark:border-emerald-400/30 dark:from-emerald-400/15 dark:to-cyan-400/15 dark:text-emerald-200 dark:hover:from-emerald-400/25 dark:hover:to-cyan-400/25'
+                  }
+                `}
+                aria-label={isSpeaking ? 'Stop reading therapist message' : 'Read therapist message aloud'}
+                title={isSpeaking ? 'Stop reading' : 'Read aloud'}
+              >
+                {isSpeaking ? <VolumeX size={15} /> : <Volume2 size={15} />}
+                {isSpeaking && (
+                  <span className="absolute inset-0 rounded-full border border-rose-300/70 animate-ping" />
+                )}
+              </button>
+            )}
+          </div>
           <p className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-wrap break-words">
             {message.content}
           </p>
